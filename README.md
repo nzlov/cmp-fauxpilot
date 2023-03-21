@@ -63,3 +63,6 @@ fauxpilot:setup({
     temperature = 0.6,
 })
 ```
+
+# More
+Based on [tzachar/cmp-tabnine](https://github.com/tzachar/cmp-tabnine)
