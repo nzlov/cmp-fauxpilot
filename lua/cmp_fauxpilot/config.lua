@@ -2,11 +2,11 @@ local M = {}
 
 local conf_defaults = {
   host = 'http://localhost:5000',
-  model = 'py-model',
-  max_tokens = 100,
-  max_lines = 1000,
+  model = 'fastertransformer',
+  max_tokens = 16,
+  max_lines = 100,
   max_num_results = 4,
-  temperature = 0.6,
+  temperature = 0.1,
 }
 
 function M:setup(params)
