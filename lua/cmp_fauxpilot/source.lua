@@ -27,9 +27,6 @@ function Source.get_debug_name()
 end
 
 function Source._do_complete(self, ctx, callback)
-  if self.job == 0 then
-    return
-  end
   local max_lines = conf:get('max_lines')
   local cursor = ctx.context.cursor
   local cur_line = ctx.context.cursor_line
@@ -117,10 +114,12 @@ function Source._do_complete(self, ctx, callback)
         end
       end
       if next(items) ~= nil then
-        callback({
-          items = items,
-          isIncomplete = conf:get('run_on_every_keystroke'),
-        })
+        if self.job == ctx.context.id then
+          callback({
+            items = items,
+            isIncomplete = conf:get('run_on_every_keystroke'),
+          })
+        end
       end
     end,
   })
