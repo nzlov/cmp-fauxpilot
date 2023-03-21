@@ -44,9 +44,16 @@ function Source._do_complete(self, ctx, callback)
   local req = {
     model = conf:get('model'),
     prompt = before,
+    suffix = after,
     max_tokens = conf:get('max_tokens'),
     temperature = conf:get('temperature'),
-    stop = after,
+    top_p = conf:get('top_p'),
+    n = conf:get('n'),
+    echo = conf:get('echo'),
+    presence_penalty = conf:get('presence_penalty'),
+    frequency_penalty = conf:get('frequency_penalty'),
+    best_of = conf:get('best_of'),
+    stop = conf:get('stop'),
   }
   -- local res = curl.post(conf:get('host') .. '/v1/engines/codegen/completions', {
   --   body = vim.fn.json_encode(req),
@@ -54,6 +61,7 @@ function Source._do_complete(self, ctx, callback)
   --     content_type = 'application/json',
   --   },
   -- })
+  dump(req)
 
   fn.jobstart({
     'curl',
@@ -69,6 +77,7 @@ function Source._do_complete(self, ctx, callback)
     conf:get('host') .. '/v1/engines/codegen/completions',
   }, {
     on_stdout = function(_, c, _)
+      dump(c)
       local items = {}
       for _, res in ipairs(c) do
         if res ~= nil and res ~= '' and res ~= 'null' then

@@ -4,9 +4,15 @@ local conf_defaults = {
   host = 'http://localhost:5000',
   model = 'fastertransformer',
   max_tokens = 16,
+  temperature = 0.6,
+  top_p = 1,
+  n = 1,
+  echo = false,
+  presence_penalty = 0,
+  frequency_penalty = 1,
+  best_of = 1,
   max_lines = 100,
-  max_num_results = 4,
-  temperature = 0.1,
+  stop = { '\n' },
 }
 
 function M:setup(params)
