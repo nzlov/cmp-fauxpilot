@@ -101,6 +101,9 @@ function Source._do_complete(self, ctx, callback)
               },
               sortText = newText,
               dup = 0,
+              cmp = {
+                kind_text = 'FauxPilot',
+              },
             }
             if result.text:find('.*\n.*') then
               item['data']['multiline'] = true
