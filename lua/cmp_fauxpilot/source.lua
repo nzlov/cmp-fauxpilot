@@ -9,7 +9,8 @@ local function dump(...)
 end
 
 local Source = {
-  job = '',
+  id = nil,
+  job = nil,
 }
 local last_instance = nil
 
@@ -63,7 +64,7 @@ function Source._do_complete(self, ctx, callback)
   -- })
   dump(req)
 
-  fn.jobstart({
+  self.job = fn.jobstart({
     'curl',
     '-s',
     '-H',
@@ -123,7 +124,7 @@ function Source._do_complete(self, ctx, callback)
         end
       end
       if next(items) ~= nil then
-        if self.job == ctx.context.id then
+        if self.id == ctx.context.id then
           callback({
             items = items,
             isIncomplete = conf:get('run_on_every_keystroke'),
@@ -136,7 +137,11 @@ end
 
 --- complete
 function Source.complete(self, ctx, callback)
-  self.job = ctx.context.id
+  self.id = ctx.context.id
+  if self.job ~= nil then
+    fn.jobstop(self.job)
+    self.job = nil
+  end
   self:_do_complete(ctx, callback)
 end
 
