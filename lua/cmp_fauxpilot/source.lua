@@ -62,7 +62,6 @@ function Source._do_complete(self, ctx, callback)
   --     content_type = 'application/json',
   --   },
   -- })
-  dump(req)
 
   self.job = fn.jobstart({
     'curl',
@@ -78,7 +77,6 @@ function Source._do_complete(self, ctx, callback)
     conf:get('host') .. '/v1/engines/codegen/completions',
   }, {
     on_stdout = function(_, c, _)
-      dump(c)
       local items = {}
       for _, res in ipairs(c) do
         if res ~= nil and res ~= '' and res ~= 'null' then
