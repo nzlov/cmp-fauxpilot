@@ -90,7 +90,7 @@ function Source._do_complete(self, ctx, callback)
               newText = newText:gsub('^\n', '')
             end
             local range = {
-              start = { line = cursor.line, character = cursor.col - result.index },
+              start = { line = cursor.line, character = cursor.col - result.index - 1 },
               ['end'] = { line = cursor.line, character = cursor.col + result.index - 1 },
             }
 
