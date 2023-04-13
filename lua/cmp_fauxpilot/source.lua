@@ -82,7 +82,7 @@ function Source._do_complete(self, ctx, callback)
         if res ~= nil and res ~= '' and res ~= 'null' then
           local data = (vim.json.decode(res) or {})
           for _, result in ipairs(data.choices) do
-            local newText = cur_line_before .. result.text
+            local newText = result.text
 
             if newText:find('.*\n.*') then
               -- this is a multi line completion.
@@ -90,12 +90,12 @@ function Source._do_complete(self, ctx, callback)
               newText = newText:gsub('^\n', '')
             end
             local range = {
-              start = { line = cursor.line, character = cursor.col - result.index - 1 },
-              ['end'] = { line = cursor.line, character = cursor.col + result.index - 1 },
+              start = { line = cursor.line, character = cursor.col },
+              ['end'] = { line = cursor.line, character = cursor.col },
             }
 
             local item = {
-              label = newText,
+              label = cur_line_before .. newText,
               -- removing filterText, as it interacts badly with multiline
               -- filterText = newText,
               data = result,
@@ -108,6 +108,10 @@ function Source._do_complete(self, ctx, callback)
               dup = 0,
               cmp = {
                 kind_text = 'FauxPilot',
+              },
+              documentation = {
+                kind = cmp.lsp.MarkupKind.Markdown,
+                value = '```' .. (vim.filetype.match({ buf = 0 }) or '') .. '\n' .. cur_line_before .. newText .. '\n```',
               },
             }
             if result.text:find('.*\n.*') then
