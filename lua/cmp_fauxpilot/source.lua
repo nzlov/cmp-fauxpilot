@@ -89,13 +89,14 @@ function Source._do_complete(self, ctx, callback)
               -- remove leading newlines
               newText = newText:gsub('^\n', '')
             end
+
             local range = {
               start = { line = cursor.line, character = cursor.col },
               ['end'] = { line = cursor.line, character = cursor.col },
             }
 
             local item = {
-              label = cur_line_before .. newText,
+              label = newText,
               -- removing filterText, as it interacts badly with multiline
               -- filterText = newText,
               data = result,
@@ -114,12 +115,8 @@ function Source._do_complete(self, ctx, callback)
                 value = '```' .. (vim.filetype.match({ buf = 0 }) or '') .. '\n' .. cur_line_before .. newText .. '\n```',
               },
             }
-            if result.text:find('.*\n.*') then
+            if newText:find('.*\n.*') then
               item['data']['multiline'] = true
-              item['documentation'] = {
-                kind = cmp.lsp.MarkupKind.Markdown,
-                value = '```' .. (vim.filetype.match({ buf = 0 }) or '') .. '\n' .. newText .. '\n```',
-              }
             end
             table.insert(items, item)
           end
