@@ -15,7 +15,7 @@ Plug 'nzlov/cmp-fauxpilot'
 Using plug on windows:
 
 ```viml
-Plug 'tzachar/cmp-fauxpilot'
+Plug 'nzlov/cmp-fauxpilot'
 ```
 
 Using [Lazy](https://github.com/folke/lazy.nvim/):
